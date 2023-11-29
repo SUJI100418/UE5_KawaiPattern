@@ -45,3 +45,30 @@
 3. Saved : 프로젝트 작업 중 생성되는 임시 파일
 4. Source : C++ 코드
 5. .uproject : 엔진 프로젝트, 더블 클릭하여 실행
+
+-------------------------------
+
+## 언리얼 단축키
+### VS
+- Ctrl + Shift + B : VS 컴파일 (Build: 1 succeeded 체크)
+- Ctrl + F5 : 에디터 실행
+
+### 에디터
+- Shift + F1 : 플레이 상태에서 마우스 뺌
+
+
+
+
+
+-------------------------------
+
+### 언리얼 멀티플을 위한 설정
+https://docs.unrealengine.com/5.3/en-US/networking-overview-for-unreal-engine/
+
+- 실행 옵션 (실행 아이콘 옆에 ... 세로로 있는 버튼)
+    - Net Mode -> **Player As Listen Server**
+    - Selected Viewport 체크 ON
+    - Advanced Settings -> Always On Top 체크 ON
+
+- Editor Preferences
+    - join : Allow late joining 체크 ON
