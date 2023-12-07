@@ -4,6 +4,7 @@
 #include "Character/KPCharacterBase.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "KPCharacterControlData.h"
 
 // Sets default values
 AKPCharacterBase::AKPCharacterBase()
@@ -37,10 +38,33 @@ AKPCharacterBase::AKPCharacterBase()
 		GetMesh()->SetSkeletalMesh(CharacterMeshRef.Object);
 	}
 
-	static ConstructorHelpers::FClassFinder<UAnimInstance> AnimInstanceClassRef(TEXT(""));
+	static ConstructorHelpers::FClassFinder<UAnimInstance> AnimInstanceClassRef(TEXT("/Game/ArenaBattle/Animation/ABP_KPCharacter.ABP_KPCharacter_C"));
 	if (AnimInstanceClassRef.Class)
 	{
 		GetMesh()->SetAnimInstanceClass(AnimInstanceClassRef.Class);
 	}
+
+	static ConstructorHelpers::FObjectFinder<UKPCharacterControlData> ShoulderDataRef(TEXT("/Script/KawaiPattern.KPCharacterControlData'/Game/ArenaBattle/CharacterControlData/KPC_Shoulder.KPC_Shoulder'"));
+	if (ShoulderDataRef.Object != nullptr)
+	{
+		CharacterControlManager.Add(ECharacterControlType::Shoulder, ShoulderDataRef.Object);
+	}
+
+	static ConstructorHelpers::FObjectFinder<UKPCharacterControlData> QuaterDataRef(TEXT("/Script/KawaiPattern.KPCharacterControlData'/Game/ArenaBattle/CharacterControlData/KPC_Quater.KPC_Quater'"));
+	if (QuaterDataRef.Object != nullptr)
+	{
+		CharacterControlManager.Add(ECharacterControlType::Quater, QuaterDataRef.Object);
+	}
+}
+
+void AKPCharacterBase::SetCharacterControlData(const UKPCharacterControlData* CharacterControlData)
+{
+	// Pawn
+	bUseControllerRotationYaw = CharacterControlData->bUseControllerRotationYaw;
+
+	// Character Movement
+	GetCharacterMovement()->bOrientRotationToMovement = CharacterControlData->bOrientRotationToMovement;
+	GetCharacterMovement()->bUseControllerDesiredRotation = CharacterControlData->bUseControllerDesiredRotation;
+	GetCharacterMovement()->RotationRate = CharacterControlData->RotationRate;
 }
 
