@@ -7,7 +7,9 @@ public class KawaiPattern : ModuleRules
 	public KawaiPattern(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-	
+
+        PublicIncludePaths.AddRange(new string[] { "KawaiPattern" });
+
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
