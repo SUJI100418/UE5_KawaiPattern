@@ -52,7 +52,13 @@ AKPCharacterPlayer::AKPCharacterPlayer()
 		QuaterMoveAction = InputActionQuaterMoveRef.Object;
 	}
 
-	CurrentCharacterControlType = ECharacterControlType::Shoulder;
+	static ConstructorHelpers::FObjectFinder<UInputAction> InputActioAttackRef(TEXT("/Script/EnhancedInput.InputAction'/Game/ArenaBattle/Input/Actions/IA_Attack.IA_Attack'"));
+	if (InputActioAttackRef.Object != nullptr)
+	{
+		AttackAction = InputActioAttackRef.Object;
+	}
+
+	CurrentCharacterControlType = ECharacterControlType::Quater;
 }
 
 
@@ -68,6 +74,7 @@ void AKPCharacterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	EnhancedInputComponent->BindAction(ShoulderMoveAction, ETriggerEvent::Triggered, this, &AKPCharacterPlayer::ShoulderMove);
 	EnhancedInputComponent->BindAction(ShoulderLookAction, ETriggerEvent::Triggered, this, &AKPCharacterPlayer::ShoulderLook);
 	EnhancedInputComponent->BindAction(QuaterMoveAction, ETriggerEvent::Triggered, this, &AKPCharacterPlayer::QuaterMove);
+	EnhancedInputComponent->BindAction(AttackAction, ETriggerEvent::Triggered, this, &AKPCharacterPlayer::Attack);
 }
 
 void AKPCharacterPlayer::SetCharacterControlData(const UKPCharacterControlData* CharacterControlData)
@@ -170,4 +177,9 @@ void AKPCharacterPlayer::QuaterMove(const FInputActionValue& Value)
 	FVector MoveDirection = FVector(MovementVector.X, MovementVector.Y, 0.0f);
 	GetController()->SetControlRotation(FRotationMatrix::MakeFromX(MoveDirection).Rotator());
 	AddMovementInput(MoveDirection, MovementVectorSize);
+}
+
+void AKPCharacterPlayer::Attack(const FInputActionValue& Value)
+{
+	ProcessComboCommand();
 }
